@@ -1,5 +1,5 @@
-# Minimalistic performance measurement util
-_TBD_
+# nperf
+A minimalistic performance measurement util for Node.js.
 
 ## Install
 ```
