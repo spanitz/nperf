@@ -5,6 +5,8 @@ node_js:
 - '7.2'
 script:
 - npm test
+- npm install istanbul -g
+- istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage
 cache:
   directories:
   - node_modules
