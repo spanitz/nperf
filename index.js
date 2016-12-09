@@ -27,19 +27,20 @@ function nperf(samples = 1000000) {
             });
 
             this.log();
+            return this;
         },
         log() {
             const time = this._tests.map(x => x._time);
             const min = _.min(time);
             const max = _.max(time);
-            const log = [util.format(chalk.cyan('%s'), this._tests.map(x => x.desc).join(' vs. '))];
 
+            this._log = [util.format(chalk.cyan('%s'), this._tests.map(x => x.desc).join(' vs. '))];
             this._tests = _.sortBy(this._tests, x => x._time);
 
             this._tests.forEach((x, i) => {
                 const color = i === 0 ? chalk.green.bold : x._time === max ? chalk.red : chalk.gray;
 
-                log.push(util.format((i === 0 ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.grey(' (~%s)'),
+                this._log.push(util.format((i === 0 ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.grey(' (~%s)'),
                     i + 1,
                     x.desc,
                     Math.round(max/x._time),
@@ -48,7 +49,7 @@ function nperf(samples = 1000000) {
             });
 
             if (process.env.NODE_ENV !== 'test') {
-                console.log(log.join('\n'));
+                console.log(this._log.join('\n'));
             }
         }
     };
