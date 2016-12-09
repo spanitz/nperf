@@ -1,4 +1,7 @@
 # nperf
+
+[![Build Status](https://travis-ci.org/spanitz/nperf.svg?branch=master)](https://travis-ci.org/spanitz/nperf)
+
 A minimalistic performance measurement util for Node.js.
 
 ## Install
