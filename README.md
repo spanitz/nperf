@@ -1,6 +1,6 @@
 # nperf
 
-[![Build Status](https://travis-ci.org/spanitz/nperf.svg?branch=master)](https://travis-ci.org/spanitz/nperf)
+[![Build Status](https://travis-ci.org/spanitz/nperf.svg?branch=master)](https://travis-ci.org/spanitz/nperf) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/a004b606bba04b23b49cffdbdbaa87fd)](https://www.codacy.com/app/info_75/nperf?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=spanitz/nperf&amp;utm_campaign=Badge_Coverage) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a004b606bba04b23b49cffdbdbaa87fd)](https://www.codacy.com/app/info_75/nperf?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=spanitz/nperf&amp;utm_campaign=Badge_Grade)
 
 A minimalistic performance measurement util for Node.js.
 
