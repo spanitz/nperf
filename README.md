@@ -39,6 +39,17 @@ Spread-Operator vs. Array.prototype.concat
 ## API
 _TBD_
 
+## Running tests
+```
+npm test
+```
+
+### Coverage
+```
+npm install istanbul -g
+npm run coverage
+```
+
 ## License
 
 Released under the MIT license.
