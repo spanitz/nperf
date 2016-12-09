@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const pretty = require('pretty-time');
 const chalk = require('chalk');
+const util = require('util');
 
 module.exports = nperf;
 
@@ -31,21 +32,24 @@ function nperf(samples = 1000000) {
             const time = this._tests.map(x => x._time);
             const min = _.min(time);
             const max = _.max(time);
-
-            console.log(chalk.cyan('%s'), this._tests.map(x => x.desc).join(' vs. '));
+            const log = [util.format(chalk.cyan('%s'), this._tests.map(x => x.desc).join(' vs. '))];
 
             this._tests = _.sortBy(this._tests, x => x._time);
 
             this._tests.forEach((x, i) => {
                 const color = i === 0 ? chalk.green.bold : x._time === max ? chalk.red : chalk.gray;
 
-                console.log((i === 0 ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.grey(' (~%s)'),
+                log.push(util.format((i === 0 ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.grey(' (~%s)'),
                     i + 1,
                     x.desc,
                     Math.round(max/x._time),
                     pretty(x.time)
-                );
+                ));
             });
+
+            if (process.env.NODE_ENV !== 'test') {
+                console.log(log.join('\n'));
+            }
         }
     };
 }

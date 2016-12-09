@@ -11,9 +11,13 @@
     "lodash": "^4.17.2",
     "pretty-time": "^0.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-spies": "^0.7.1",
+    "mocha": "^3.2.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Stefan Panitz <info@stefanpanitz.de> (https://github.com/spanitz)",
   "license": "MIT"
