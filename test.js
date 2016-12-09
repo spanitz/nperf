@@ -33,28 +33,44 @@ describe('nperf', () => {
     });
     describe('run()', () => {
         it('should add time metric as hrtime Array', () => {
-            const instance = nperf(1).test('foo', () => {});
-            instance.run();
+            const instance = nperf(1).test('foo', () => {}).run();
             expect(instance._tests[0]).to.have.property('time');
             expect(instance._tests[0].time).to.be.an('array');
         });
         it('should add _time metric in nanoseconds', () => {
-            const instance = nperf(1).test('foo', () => {});
-            instance.run();
+            const instance = nperf(1).test('foo', () => {}).run();
             expect(instance._tests[0]).to.have.property('_time');
             expect(instance._tests[0]._time).to.be.a('number');
         });
         it('should call foo 3 times', () => {
             const spy = chai.spy(() => {});
-            const instance = nperf(3).test('foo', spy);
-            instance.run();
+            nperf(3).test('foo', spy).run();
             expect(spy).to.have.been.called.exactly(3);
         });
+    });
+    describe('log()', () => {
         it('should call log()', () => {
             const instance = nperf(1).test('foo', () => {});
             const spy = chai.spy.on(instance, 'log');
             instance.run();
             expect(spy).to.have.been.called();
+        });
+        it('should create log output', () => {
+            const instance = nperf(1).test('foo', () => {}).test('bar', () => {}).run();
+            expect(instance._log).to.be.an('array');
+            expect(instance._log).to.have.lengthOf(3);
+        });
+        it('should sort log output ascending by _time', () => {
+            const instance = nperf(1).test('foo', () => {}).test('bar', () => {});
+
+            instance._tests[0].time = [2, 1e8];
+            instance._tests[0]._time = instance._tests[0].time[0] * 1e9 + instance._tests[0].time[1];
+            instance._tests[1].time = [1, 1e8];
+            instance._tests[1]._time = instance._tests[1].time[0] * 1e9 + instance._tests[1].time[1];
+            instance.log();
+
+            expect(instance._tests[0].desc).to.equal('bar');
+            expect(instance._tests[1].desc).to.equal('foo');
         });
     });
 });
