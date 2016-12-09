@@ -47,6 +47,11 @@ describe('nperf', () => {
             nperf(3).test('foo', spy).run();
             expect(spy).to.have.been.called.exactly(3);
         });
+        it('should calculate extremes', () => {
+            const instance = nperf(1).test('foo', () => {}).test('bar', () => {}).run();
+            expect(instance.min).to.be.a('number');
+            expect(instance.max).to.be.a('number');
+        });
     });
     describe('log()', () => {
         it('should call log()', () => {
