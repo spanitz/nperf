@@ -1,6 +1,6 @@
 {
   "name": "nperf",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Minimalistic performance measurement util",
   "main": "index.js",
   "engines": {
@@ -20,8 +20,20 @@
   },
   "scripts": {
     "test": "mocha",
-    "coverage":"istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage"
   },
   "author": "Stefan Panitz <info@stefanpanitz.de> (https://github.com/spanitz)",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spanitz/nperf.git"
+  },
+  "keywords": [
+    "performance",
+    "benchmark"
+  ],
+  "bugs": {
+    "url": "https://github.com/spanitz/nperf/issues"
+  },
+  "homepage": "https://github.com/spanitz/nperf#readme"
 }
