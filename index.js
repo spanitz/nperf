@@ -23,12 +23,12 @@ function nperf(samples = 1000000) {
                 }
 
                 x.time = process.hrtime(start);
-                x._time = x.time[0] * 1e9 + x.time[1];
+                x.avg = (x.time[0] * 1e9 + x.time[1]) / samples;
             });
 
-            const time = this._tests.map(x => x._time);
-            this.min = _.min(time);
-            this.max = _.max(time);
+            const avg = this._tests.map(x => x.avg);
+            this.min = _.min(avg);
+            this.max = _.max(avg);
 
             this.log();
 
@@ -36,16 +36,16 @@ function nperf(samples = 1000000) {
         },
         log() {
             this._log = [util.format(chalk.cyan('%s'), this._tests.map(x => x.desc).join(' vs. '))];
-            this._tests = _.sortBy(this._tests, x => x._time);
+            this._tests = _.sortBy(this._tests, x => x.avg);
 
             this._tests.forEach((x, i) => {
-                const color = x._time === this.min ? chalk.green.bold : x._time === this.max ? chalk.red : chalk.gray;
+                const color = x.avg === this.min ? chalk.green.bold : x.avg === this.max ? chalk.red : chalk.gray;
 
-                this._log.push(util.format((x._time === this.min ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.grey(' (~%s)'),
+                this._log.push(util.format((x.avg === this.min ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.grey(' (avg ~%s)'),
                     i + 1,
                     x.desc,
-                    Math.round(this.max/x._time),
-                    pretty(x.time)
+                    Math.round(this.max/x.avg),
+                    pretty(x.avg, 3)
                 ));
             });
 
