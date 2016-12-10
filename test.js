@@ -37,10 +37,10 @@ describe('nperf', () => {
             expect(instance._tests[0]).to.have.property('time');
             expect(instance._tests[0].time).to.be.an('array');
         });
-        it('should add _time metric in nanoseconds', () => {
+        it('should add avg metric in nanoseconds', () => {
             const instance = nperf(1).test('foo', () => {}).run();
-            expect(instance._tests[0]).to.have.property('_time');
-            expect(instance._tests[0]._time).to.be.a('number');
+            expect(instance._tests[0]).to.have.property('avg');
+            expect(instance._tests[0].avg).to.be.a('number');
         });
         it('should call foo 3 times', () => {
             const spy = chai.spy(() => {});
@@ -65,13 +65,13 @@ describe('nperf', () => {
             expect(instance._log).to.be.an('array');
             expect(instance._log).to.have.lengthOf(3);
         });
-        it('should sort log output ascending by _time', () => {
+        it('should sort log output ascending by avg', () => {
             const instance = nperf(1).test('foo', () => {}).test('bar', () => {});
 
             instance._tests[0].time = [2, 1e8];
-            instance._tests[0]._time = instance._tests[0].time[0] * 1e9 + instance._tests[0].time[1];
+            instance._tests[0].avg = instance._tests[0].time[0] * 1e9 + instance._tests[0].time[1];
             instance._tests[1].time = [1, 1e8];
-            instance._tests[1]._time = instance._tests[1].time[0] * 1e9 + instance._tests[1].time[1];
+            instance._tests[1].avg = instance._tests[1].time[0] * 1e9 + instance._tests[1].time[1];
             instance.log();
 
             expect(instance._tests[0].desc).to.equal('bar');
