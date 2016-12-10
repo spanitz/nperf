@@ -32,8 +32,8 @@ nperf()
 ### Console output
 ```
 Spread-Operator vs. Array.prototype.concat
-1. Array.prototype.concat 2x (~197ms)
-2. Spread-Operator 1x (~381ms)
+1. Array.prototype.concat 2x (avg ~139.490ns)
+2. Spread-Operator 1x (avg ~276.843ns)
 ```
 
 ## API
