@@ -21,26 +21,26 @@ describe('nperf', () => {
     describe('test()', () => {
         it('should add a new test case', () => {
             const instance = nperf().test('foo', () => {});
-            expect(instance._tests.length).to.equal(1);
+            expect(instance.tests.length).to.equal(1);
         });
         it('should add a new test case with the correct properties', () => {
             const instance = nperf().test('foo', () => {});
-            expect(instance._tests[0]).to.have.property('fn');
-            expect(instance._tests[0].fn).to.be.a('function');
-            expect(instance._tests[0]).to.have.property('desc')
-            expect(instance._tests[0].desc).to.equal('foo');
+            expect(instance.tests[0]).to.have.property('fn');
+            expect(instance.tests[0].fn).to.be.a('function');
+            expect(instance.tests[0]).to.have.property('desc')
+            expect(instance.tests[0].desc).to.equal('foo');
         });
     });
     describe('run()', () => {
         it('should add time metric as hrtime Array', () => {
             const instance = nperf(1).test('foo', () => {}).run();
-            expect(instance._tests[0]).to.have.property('time');
-            expect(instance._tests[0].time).to.be.an('array');
+            expect(instance.tests[0]).to.have.property('time');
+            expect(instance.tests[0].time).to.be.an('array');
         });
         it('should add avg metric in nanoseconds', () => {
             const instance = nperf(1).test('foo', () => {}).run();
-            expect(instance._tests[0]).to.have.property('avg');
-            expect(instance._tests[0].avg).to.be.a('number');
+            expect(instance.tests[0]).to.have.property('avg');
+            expect(instance.tests[0].avg).to.be.a('number');
         });
         it('should call foo 3 times', () => {
             const spy = chai.spy(() => {});
@@ -68,14 +68,14 @@ describe('nperf', () => {
         it('should sort log output ascending by avg', () => {
             const instance = nperf(1).test('foo', () => {}).test('bar', () => {});
 
-            instance._tests[0].time = [2, 1e8];
-            instance._tests[0].avg = instance._tests[0].time[0] * 1e9 + instance._tests[0].time[1];
-            instance._tests[1].time = [1, 1e8];
-            instance._tests[1].avg = instance._tests[1].time[0] * 1e9 + instance._tests[1].time[1];
+            instance.tests[0].time = [2, 1e8];
+            instance.tests[0].avg = instance.tests[0].time[0] * 1e9 + instance.tests[0].time[1];
+            instance.tests[1].time = [1, 1e8];
+            instance.tests[1].avg = instance.tests[1].time[0] * 1e9 + instance.tests[1].time[1];
             instance.log();
 
-            expect(instance._tests[0].desc).to.equal('bar');
-            expect(instance._tests[1].desc).to.equal('foo');
+            expect(instance.tests[0].desc).to.equal('bar');
+            expect(instance.tests[1].desc).to.equal('foo');
         });
     });
 });
