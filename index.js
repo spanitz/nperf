@@ -62,7 +62,7 @@ proto.run = function() {
  */
 proto.log = function() {
     if (this.tests.length === 0) return this;
-    
+
     this._log = [];
 
     this._log = [util.format(chalk.cyan('%s'), this.tests.map(x => x.desc).join(' vs. '))];
@@ -71,7 +71,7 @@ proto.log = function() {
     this.tests.forEach((x, i) => {
         const color = x.avg === this.min ? chalk.green.bold : x.avg === this.max ? chalk.red : chalk.gray;
 
-        this._log.push(util.format((x.avg === this.min ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.grey(' (avg ~%s)'),
+        this._log.push(util.format((x.avg === this.min ? '%s. %s ' : chalk.grey('%s. %s ')) + color('%sx') + chalk.gray(' (avg ~%s)'),
             i + 1,
             x.desc,
             Math.round(this.max/x.avg),
