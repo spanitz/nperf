@@ -14,13 +14,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
-    "codacy-coverage": "^2.0.0",
-    "mocha": "^3.2.0",
-    "mocha-lcov-reporter": "^1.2.0"
+    "mocha": "^3.2.0"
   },
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage"
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "author": "Stefan Panitz <info@stefanpanitz.de> (https://github.com/spanitz)",
   "license": "MIT",
