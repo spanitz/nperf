@@ -1,5 +1,13 @@
 const nperf = require('.');
 
+nperf(100)
+    .test('Promise', () => {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(), 10);
+        });
+    })
+    .run();
+
 nperf()
     .test('Spread-Operator', () => {
         const b = [4, 5, 6];

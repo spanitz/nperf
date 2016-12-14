@@ -23,9 +23,35 @@ const proto = nperf.prototype;
  * @return {nperf}
  */
 proto.test = function(desc, fn) {
-    this.tests.push({ desc, fn });
+    const ret = fn();
+    const async = ret && typeof ret.then === 'function';
+    this.tests.push({ desc, fn, async });
 
     return this;
+}
+
+proto._runAsync = function(setup, test, i) {
+    return new Promise((resolve) => {
+        function* gen() {
+            setup();
+            while(i--) yield test.fn();
+            resolve();
+        }
+
+        const iter = gen();
+        (function run() {
+            const curr = iter.next();
+            if (!curr.done) curr.value.then(run);
+        })();
+    });
+}
+
+proto._runSync = function(setup, test, i) {
+    return new Promise((resolve) => {
+        setup();
+        while (i--) test.fn();
+        resolve();
+    });
 }
 
 /**
@@ -35,24 +61,34 @@ proto.test = function(desc, fn) {
  */
 proto.run = function() {
     if (this.tests.length === 0) return this;
+    const ctx = this;
 
-    this.tests.forEach(x => {
-        const start = process.hrtime();
+    function* gen() {
+        let i = ctx.tests.length;
+        let start;
 
-        let i = this.samples;
-        while (i--) {
-            x.fn();
+        while(i--) {
+            yield ctx[ctx.tests[i].async ? '_runAsync' : '_runSync'](
+                () => { start = process.hrtime() },
+                ctx.tests[i],
+                ctx.samples
+            ).then(() => {
+                ctx.tests[i].time = process.hrtime(start);
+                ctx.tests[i].avg = (ctx.tests[i].time[0] * 1e9 + ctx.tests[i].time[1]) / ctx.samples;
+            });
         }
 
-        x.time = process.hrtime(start);
-        x.avg = (x.time[0] * 1e9 + x.time[1]) / this.samples;
-    });
+        const avg = ctx.tests.map(x => x.avg);
+        ctx.min = _.min(avg);
+        ctx.max = _.max(avg);
+        ctx.log();
+    };
 
-    const avg = this.tests.map(x => x.avg);
-    this.min = _.min(avg);
-    this.max = _.max(avg);
-
-    this.log();
+    const iter = gen();
+    (function run() {
+        const curr = iter.next();
+        if (!curr.done) curr.value.then(run);
+    })();
 
     return this;
 }
